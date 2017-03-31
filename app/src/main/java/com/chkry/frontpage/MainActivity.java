@@ -9,14 +9,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 public class MainActivity extends AppCompatActivity {
 
 
-    String[] chkry = {"ME","Hello World","Android","Working Good","CHAKRI","Hello World","Android","Working Good","CHAKRI","Hello World","Android","Working Good","CHAKRI","Hello World","Android","Working Good"};
+    String[] chkry = {"ME","Hello World","Android","Working Good","CHAKRI","Hello World","Android","Working Good","CHAKRI","Hello World","ME","Hello World","Android","Working Good","CHAKRI","Hello World","Android","Working Good","CHAKRI","Hello World","Android","Working Good","CHAKRI","Hello World","Android","Working Good"};
 
+    public static Set<String> arrList = new TreeSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,43 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.listlayout, chkry);
         final ListView listViewpost = (ListView) findViewById(R.id.listViewpost);
         listViewpost.setAdapter(adapter);
+
+
+        //TeMP
+
+
+        ///Temp
+
+        listViewpost.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                Object o = listViewpost.getChildAt(position).findViewById(R.id.chkbox);
+                String str=(String)o;//As you are using Default String Adapter
+//              Toast.makeText(getBaseContext(),str,Toast.LENGTH_SHORT).show();
+
+
+
+                CheckBox cb = (CheckBox) ((listViewpost.getChildAt(position)).findViewById(R.id.chkbox));
+                cb.setChecked(!cb.isChecked());
+
+                if (str!=null && !str.isEmpty()) {
+                    if (cb.isChecked()) {
+                        arrList.add(str);
+                        Toast.makeText(getApplicationContext(), "Added "+str+" successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        arrList.remove(str);
+                        Toast.makeText(getApplicationContext(), "Removed "+str+" successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+
+
+
+
+
+            }
+        });
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
